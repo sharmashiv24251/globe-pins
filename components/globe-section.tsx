@@ -398,7 +398,14 @@ export default function GlobeSection() {
   ];
 
   return (
-    <div className="h-[400px] md:h-screen w-screen bg-transparent relative overflow-hidden">
+    <div
+      className="h-[400px] md:h-screen w-screen bg-transparent relative overflow-hidden"
+      style={{
+        maskImage: "linear-gradient(to bottom, black 60%, transparent 100%)",
+        WebkitMaskImage:
+          "linear-gradient(to bottom, black 60%, transparent 100%)",
+      }}
+    >
       {/* Globe - 95% width on mobile, 80% on desktop, positioned to show only upper half */}
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="w-[95%] md:w-[80%] aspect-square absolute bottom-0 translate-y-1/2">
