@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { Color, Scene, Fog, PerspectiveCamera, Vector3 } from "three";
+import { Color, Scene, Fog, PerspectiveCamera, Vector3, Group } from "three";
 import ThreeGlobe from "three-globe";
 import { useThree, Canvas, extend } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
@@ -64,7 +64,7 @@ let numbersOfRings = [0];
 
 export function Globe({ globeConfig, data }: WorldProps) {
   const globeRef = useRef<ThreeGlobe | null>(null);
-  const groupRef = useRef();
+  const groupRef = useRef<Group>(null);
   const [isInitialized, setIsInitialized] = useState(false);
 
   const defaultProps = {
@@ -152,12 +152,13 @@ export function Globe({ globeConfig, data }: WorldProps) {
 
     globeRef.current
       .hexPolygonsData(countries.features)
-      .hexPolygonResolution(3)
-      .hexPolygonMargin(0.7)
+      .hexPolygonResolution(4) // Smooth solid polygons
+      .hexPolygonMargin(0.1) // Minimal gaps for solid look
+      .hexPolygonAltitude(0.015) // Slight elevation for better lighting
       .showAtmosphere(defaultProps.showAtmosphere)
       .atmosphereColor(defaultProps.atmosphereColor)
       .atmosphereAltitude(defaultProps.atmosphereAltitude)
-      .hexPolygonColor(() => defaultProps.polygonColor);
+      .hexPolygonColor(() => "rgba(220, 220, 220, 0.95)"); // Bright white countries
 
     globeRef.current
       .arcsData(data)
@@ -174,11 +175,15 @@ export function Globe({ globeConfig, data }: WorldProps) {
       .arcDashAnimateTime(() => defaultProps.arcTime);
 
     globeRef.current
-      .pointsData(filteredPoints)
-      .pointColor((e) => (e as { color: string }).color)
-      .pointsMerge(true)
-      .pointAltitude(0.0)
-      .pointRadius(2);
+      .labelsData(filteredPoints)
+      .labelLat((d: any) => d.lat)
+      .labelLng((d: any) => d.lng)
+      .labelAltitude(0.02) // Elevated above countries
+      .labelSize(1.5)
+      .labelDotRadius(0.4)
+      .labelColor((d: any) => d.color)
+      .labelText(() => "")
+      .labelResolution(2);
 
     globeRef.current
       .ringsData([])
@@ -249,23 +254,25 @@ export function WebGLRendererConfig() {
 export function World(props: WorldProps) {
   const { globeConfig } = props;
   const scene = new Scene();
-  scene.fog = new Fog(0xffffff, 400, 2000);
+  scene.fog = new Fog(0x000000, 400, 2000); // Black fog for dark gradient
   return (
     <Canvas scene={scene} camera={new PerspectiveCamera(50, aspect, 180, 1800)}>
       <WebGLRendererConfig />
-      <ambientLight color={globeConfig.ambientLight} intensity={0.6} />
+      <ambientLight color={globeConfig.ambientLight} intensity={0.8} />
       <directionalLight
         color={globeConfig.directionalLeftLight}
         position={new Vector3(-400, 100, 400)}
+        intensity={1.2}
       />
       <directionalLight
         color={globeConfig.directionalTopLight}
         position={new Vector3(-200, 500, 200)}
+        intensity={1.2}
       />
       <pointLight
         color={globeConfig.pointLight}
         position={new Vector3(-200, 500, 200)}
-        intensity={0.8}
+        intensity={1.0}
       />
       <Globe {...props} />
       <OrbitControls

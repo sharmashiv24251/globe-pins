@@ -11,17 +11,17 @@ const World = dynamic(
 
 export default function GlobeSection() {
   const globeConfig = {
-    pointSize: 4,
-    globeColor: "#062056",
+    pointSize: 1,
+    globeColor: "#0a0a0a", // Very dark for ocean areas
     showAtmosphere: true,
-    atmosphereColor: "#FFFFFF",
-    atmosphereAltitude: 0.1,
-    emissive: "#062056",
+    atmosphereColor: "#ffffff", // Bright white atmosphere
+    atmosphereAltitude: 0.15, // Thick atmosphere glow
+    emissive: "#000000", // Black emissive
     emissiveIntensity: 0.1,
     shininess: 0.9,
-    polygonColor: "rgba(255,255,255,0.7)",
-    ambientLight: "#38bdf8",
-    directionalLeftLight: "#ffffff",
+    polygonColor: "rgba(120, 120, 120, 0.9)", // Bright gray countries
+    ambientLight: "#ffffff", // Bright white ambient
+    directionalLeftLight: "#ffffff", // Strong white lights
     directionalTopLight: "#ffffff",
     pointLight: "#ffffff",
     arcTime: 1000,
@@ -33,7 +33,7 @@ export default function GlobeSection() {
     autoRotateSpeed: 0.5,
   };
 
-  const colors = ["#06b6d4", "#3b82f6", "#6366f1"];
+  const colors = ["#ff6b35", "#ff8c42", "#ffa552"]; // Orange tones for markers/arcs
   const sampleArcs = [
     {
       order: 1,
