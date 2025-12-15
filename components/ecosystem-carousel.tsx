@@ -37,7 +37,7 @@ export default function EcosystemCarousel() {
   };
 
   return (
-    <div className="h-auto md:min-h-screen w-screen bg-black relative flex items-center justify-center px-4 md:px-8 lg:px-16 py-12 md:py-0">
+    <div className="h-auto md:min-h-screen w-screen bg-transparent relative flex items-center justify-center px-4 md:px-8 lg:px-16 py-12 md:py-0">
       <div className="max-w-7xl w-full">
         <motion.div
           initial={{

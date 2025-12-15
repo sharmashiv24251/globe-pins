@@ -4,7 +4,7 @@ import EcosystemCarousel from "@/components/ecosystem-carousel";
 
 export default function Home() {
   return (
-    <main className="bg-black">
+    <main className="">
       <GlobeSection />
       <EcosystemCarousel />
     </main>
