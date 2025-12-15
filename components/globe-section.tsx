@@ -398,10 +398,10 @@ export default function GlobeSection() {
   ];
 
   return (
-    <div className="h-screen w-screen bg-black relative overflow-hidden">
-      {/* Globe - 80% width, positioned to show only upper half */}
+    <div className="h-[400px] md:h-screen w-screen bg-black relative overflow-hidden">
+      {/* Globe - 95% width on mobile, 80% on desktop, positioned to show only upper half */}
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-[80%] aspect-square absolute bottom-0 translate-y-1/2">
+        <div className="w-[95%] md:w-[80%] aspect-square absolute bottom-0 translate-y-1/2">
           <World data={sampleArcs} globeConfig={globeConfig} />
         </div>
       </div>
