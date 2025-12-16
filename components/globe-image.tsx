@@ -113,26 +113,26 @@ function PinMarker({
       <style jsx>{`
         @keyframes spring-pop {
           0% {
-            transform: translate(-15%, 0) scale(0) rotate(15deg);
+            transform: translate(-85%, 0) scale(0) rotate(15deg);
             opacity: 0;
           }
           60% {
-            transform: translate(-15%, 10px) scale(1.1) rotate(-12deg);
+            transform: translate(-85%, 10px) scale(1.1) rotate(-12deg);
             opacity: 1;
           }
           100% {
-            transform: translate(-15%, 10px) scale(1) rotate(-10deg);
+            transform: translate(-85%, 10px) scale(1) rotate(-10deg);
             opacity: 1;
           }
         }
 
         @keyframes spring-pop-reverse {
           0% {
-            transform: translate(-15%, 10px) scale(1) rotate(-10deg);
+            transform: translate(-85%, 10px) scale(1) rotate(-10deg);
             opacity: 1;
           }
           100% {
-            transform: translate(-15%, 0) scale(0) rotate(15deg);
+            transform: translate(-85%, 0) scale(0) rotate(15deg);
             opacity: 0;
           }
         }
@@ -199,10 +199,10 @@ function PinMarker({
         <div
           className={`relative ${showCard ? "card-active" : ""}`}
           style={{
-            transformOrigin: "bottom center",
+            transformOrigin: "bottom right",
             transform: showCard
-              ? "translate(-15%, 10px) scale(1) rotate(-10deg)"
-              : "translate(-15%, 0) scale(0) rotate(15deg)",
+              ? "translate(-85%, 10px) scale(1) rotate(-10deg)"
+              : "translate(-85%, 0) scale(0) rotate(15deg)",
             opacity: showCard ? 1 : 0,
             transition: showCard ? "none" : "none",
             width: "220%", // Card width as percentage of container
