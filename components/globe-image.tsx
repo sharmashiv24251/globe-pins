@@ -71,7 +71,7 @@ const pins: Pin[] = [
   },
 ];
 
-// PinMarker component - shows pin image and hover card
+// PinMarker component - shows pin image and card on click only
 function PinMarker({
   pin,
   isActive,
@@ -81,12 +81,21 @@ function PinMarker({
   isActive: boolean;
   onClick: () => void;
 }) {
-  // Show card when hovering OR when clicked active
+  // Track hover state for pin scaling
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Show card only when clicked active (not on hover)
   const showCard = isActive;
+
+  // Pin scale logic:
+  // - Active (card open): 1.4x (persists even without hover)
+  // - Hover (not active): 1.2x
+  // - Default: 1x
+  const pinScale = isActive ? 1.4 : isHovered ? 1.2 : 1;
 
   return (
     <div
-      className="absolute group cursor-pointer z-10 hover:z-30"
+      className="absolute cursor-pointer"
       style={{
         left: `${pin.x}%`,
         top: `${pin.y}%`,
@@ -94,62 +103,150 @@ function PinMarker({
         // Pin size relative to container width (3% of container width)
         width: "3%",
         aspectRatio: "1",
+        // Active pin appears above card (z-40), inactive pins behind card (z-10)
+        zIndex: isActive ? 40 : 10,
       }}
       onClick={onClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Hover card - appears behind the pin with rotation animation */}
-      <div className="absolute bottom-full left-1/2 -mb-2 z-20 pointer-events-none">
+      <style jsx>{`
+        @keyframes spring-pop {
+          0% {
+            transform: translate(-30%, 0) scale(0) rotate(15deg);
+            opacity: 0;
+          }
+          60% {
+            transform: translate(-30%, 10px) scale(1.1) rotate(-12deg);
+            opacity: 1;
+          }
+          100% {
+            transform: translate(-30%, 10px) scale(1) rotate(-10deg);
+            opacity: 1;
+          }
+        }
+
+        @keyframes spring-pop-reverse {
+          0% {
+            transform: translate(-30%, 10px) scale(1) rotate(-10deg);
+            opacity: 1;
+          }
+          100% {
+            transform: translate(-30%, 0) scale(0) rotate(15deg);
+            opacity: 0;
+          }
+        }
+
+        @keyframes content-stagger {
+          0% {
+            opacity: 0;
+            transform: translateY(4px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .card-enter {
+          animation: spring-pop 350ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .card-exit {
+          animation: spring-pop-reverse 200ms cubic-bezier(0.4, 0, 1, 1) forwards;
+        }
+
+        .card-hover-enter {
+          animation: spring-pop 350ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .content-item {
+          animation: content-stagger 250ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .content-delay-1 {
+          animation-delay: 50ms;
+          opacity: 0;
+        }
+
+        .content-delay-2 {
+          animation-delay: 100ms;
+          opacity: 0;
+        }
+
+        .content-delay-3 {
+          animation-delay: 150ms;
+          opacity: 0;
+        }
+
+        /* Only animate when active (clicked) */
+        .card-active {
+          animation: spring-pop 350ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .card-active .content-item {
+          animation: content-stagger 250ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+      `}</style>
+
+      {/* Card - appears on click only */}
+      <div className="absolute bottom-full left-1/2 mb-1 pointer-events-none" style={{ zIndex: 30 }}>
+        {/* Card container with spring animation */}
         <div
-          className={`bg-[#1a1a1a] rounded-lg shadow-2xl min-w-[200px] border border-gray-800
-                     transition-all duration-300 ease-out origin-bottom-right
-                     -translate-x-[85%]
-                     ${
-                       showCard || false
-                         ? "rotate-0 opacity-100"
-                         : "rotate-[15deg] opacity-0"
-                     }
-                     group-hover:rotate-0 group-hover:opacity-100`}
+          className={`relative ${showCard ? "card-active" : ""}`}
+          style={{
+            transformOrigin: "bottom center",
+            transform: showCard ? "translate(-30%, 10px) scale(1) rotate(-10deg)" : "translate(-30%, 0) scale(0) rotate(15deg)",
+            opacity: showCard ? 1 : 0,
+            transition: showCard ? "none" : "none",
+          }}
         >
-          {/* Blue rounded box - minimal padding, square aspect */}
-          <div className="p-1">
-            <div className="w-full aspect-square bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg"></div>
-          </div>
+          {/* Main card body */}
+          <div className="bg-[#1a1a1a] rounded-lg shadow-2xl min-w-[200px] border border-gray-800">
+            {/* Blue rounded box - minimal padding, square aspect */}
+            <div className="p-1">
+              <div className="w-full aspect-square bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg content-item content-delay-1"></div>
+            </div>
 
-          {/* Text content - reduced padding */}
-          <div className="px-3 pb-3 pt-2">
-            {/* Name */}
-            <h3 className="text-white font-semibold text-base mb-1">
-              {pin.name}
-            </h3>
+            {/* Text content - reduced padding */}
+            <div className="px-3 pb-3 pt-2">
+              {/* Name */}
+              <h3 className="text-white font-semibold text-base mb-1 content-item content-delay-2">
+                {pin.name}
+              </h3>
 
-            {/* Description */}
-            <p className="text-gray-400 text-sm mb-2">{pin.description}</p>
+              {/* Description */}
+              <p className="text-gray-400 text-sm mb-2 content-item content-delay-2">
+                {pin.description}
+              </p>
 
-            {/* Country with icon */}
-            <div className="flex items-center gap-2 text-gray-400 text-sm">
-              <svg
-                className="w-4 h-4"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span>{pin.country}</span>
+              {/* Country with icon */}
+              <div className="flex items-center gap-2 text-gray-400 text-sm content-item content-delay-3">
+                <svg
+                  className="w-4 h-4"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <span>{pin.country}</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Pin image with rotation - always on top (z-30) */}
+      {/* Pin image with rotation and scaling */}
       <div
-        className="relative w-full h-full transition-transform hover:scale-110 z-30"
+        className="relative w-full h-full transition-transform duration-300 ease-out"
         style={{
-          transform: `rotate(${pin.rotation}deg)`,
+          transform: `rotate(${pin.rotation}deg) scale(${pinScale})`,
+          zIndex: 50, // Pin always appears above card (which is at z-index 30)
         }}
       >
         <img
