@@ -11,6 +11,7 @@ type Pin = {
   name: string;
   description: string;
   country: string;
+  colors: string[]; // Array of colors for carousel
 };
 
 // Configure your pins here - change x,y,rotation values to position them
@@ -23,6 +24,7 @@ const pins: Pin[] = [
     name: "Kalidou Koulibaly",
     description: "Al-Hilal",
     country: "Senegal",
+    colors: ["#3B82F6", "#1D4ED8", "#60A5FA"],
   },
   {
     id: "pin-2",
@@ -32,6 +34,7 @@ const pins: Pin[] = [
     name: "Lionel Messi",
     description: "Inter Miami",
     country: "Argentina",
+    colors: ["#EC4899", "#DB2777", "#F472B6"],
   },
   {
     id: "pin-3",
@@ -41,6 +44,7 @@ const pins: Pin[] = [
     name: "Son Heung-min",
     description: "Tottenham",
     country: "South Korea",
+    colors: ["#8B5CF6", "#7C3AED", "#A78BFA"],
   },
   {
     id: "pin-4",
@@ -50,6 +54,7 @@ const pins: Pin[] = [
     name: "Vinicius Jr",
     description: "Real Madrid",
     country: "Brazil",
+    colors: ["#10B981", "#059669", "#34D399"],
   },
   {
     id: "pin-5",
@@ -59,6 +64,7 @@ const pins: Pin[] = [
     name: "Erling Haaland",
     description: "Manchester City",
     country: "Norway",
+    colors: ["#F59E0B", "#D97706", "#FBBF24"],
   },
   {
     id: "pin-6",
@@ -68,6 +74,7 @@ const pins: Pin[] = [
     name: "Kylian Mbappé",
     description: "Real Madrid",
     country: "France",
+    colors: ["#EF4444", "#DC2626", "#F87171"],
   },
 ];
 
@@ -84,6 +91,9 @@ function PinMarker({
   // Track hover state for pin scaling
   const [isHovered, setIsHovered] = useState(false);
 
+  // Carousel state - track current color index
+  const [currentColorIndex, setCurrentColorIndex] = useState(0);
+
   // Show card only when clicked active (not on hover)
   const showCard = isActive;
 
@@ -92,6 +102,26 @@ function PinMarker({
   // - Hover (not active): 1.2x
   // - Default: 1x
   const pinScale = isActive ? 1.4 : isHovered ? 1.2 : 1;
+
+  // Carousel navigation handlers
+  const handlePrevColor = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent pin click
+    setCurrentColorIndex((prev) =>
+      prev === 0 ? pin.colors.length - 1 : prev - 1
+    );
+  };
+
+  const handleNextColor = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent pin click
+    setCurrentColorIndex((prev) =>
+      prev === pin.colors.length - 1 ? 0 : prev + 1
+    );
+  };
+
+  const handleDotClick = (index: number, e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent pin click
+    setCurrentColorIndex(index);
+  };
 
   return (
     <div
@@ -210,9 +240,85 @@ function PinMarker({
         >
           {/* Main card body */}
           <div className="bg-[#1a1a1a] rounded-lg shadow-2xl border border-gray-800 w-full">
-            {/* Blue rounded box - minimal padding, square aspect */}
-            <div style={{ padding: "0.25vw" }}>
-              <div className="w-full aspect-square bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg content-item content-delay-1"></div>
+            {/* Color carousel - with navigation and indicators */}
+            <div style={{ padding: "0.25vw" }} className="relative">
+              {/* Color display */}
+              <div
+                className="w-full aspect-square rounded-lg content-item content-delay-1 transition-colors duration-300"
+                style={{ backgroundColor: pin.colors[currentColorIndex] }}
+              />
+
+              {/* Left navigation button - overflows card edge */}
+              <button
+                onClick={handlePrevColor}
+                className="absolute top-1/2 -translate-y-1/2 bg-[#1a1a1a] hover:bg-[#252525] rounded-full transition-all duration-200 hover:scale-105 pointer-events-auto border-1 border-white/40"
+                style={{
+                  width: "2vw",
+                  height: "2vw",
+                  left: "-1vw", // Half the button width - overflows left edge
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="white"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  style={{ width: "1vw", height: "1vw" }}
+                >
+                  <path d="M15 18l-6-6 6-6" />
+                </svg>
+              </button>
+
+              {/* Right navigation button - overflows card edge */}
+              <button
+                onClick={handleNextColor}
+                className="absolute top-1/2 -translate-y-1/2 bg-[#1a1a1a] hover:bg-[#252525] rounded-full transition-all duration-200 hover:scale-105 pointer-events-auto border-1 border-white/40"
+                style={{
+                  width: "2vw",
+                  height: "2vw",
+                  right: "-1vw", // Half the button width - overflows right edge
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="white"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  style={{ width: "1vw", height: "1vw" }}
+                >
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+              </button>
+
+              {/* Dot indicators */}
+              <div
+                className="absolute bottom-[0.5vw] left-1/2 -translate-x-1/2 flex gap-[0.3vw]"
+                style={{ pointerEvents: "auto" }}
+              >
+                {pin.colors.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={(e) => handleDotClick(index, e)}
+                    className="rounded-full transition-all duration-200"
+                    style={{
+                      width: currentColorIndex === index ? "0.6vw" : "0.4vw",
+                      height: "0.4vw",
+                      backgroundColor:
+                        currentColorIndex === index ? "#F97316" : "#ffffff80",
+                    }}
+                  />
+                ))}
+              </div>
             </div>
 
             {/* Text content - responsive padding and text sizes */}
