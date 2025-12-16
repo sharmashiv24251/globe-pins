@@ -11,7 +11,7 @@ type Pin = {
   name: string;
   description: string;
   country: string;
-  colors: string[]; // Array of colors for carousel
+  images: string[]; // Array of image URLs for carousel
 };
 
 // Configure your pins here - change x,y,rotation values to position them
@@ -24,7 +24,11 @@ const pins: Pin[] = [
     name: "Kalidou Koulibaly",
     description: "Al-Hilal",
     country: "Senegal",
-    colors: ["#3B82F6", "#1D4ED8", "#60A5FA"],
+    images: [
+      "https://images.unsplash.com/photo-1544765773-a8dce1f272f6?q=80&w=1297&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://plus.unsplash.com/premium_photo-1685231505216-720690ca7cc9?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1614170059029-3b7422659b37?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    ],
   },
   {
     id: "pin-2",
@@ -34,7 +38,11 @@ const pins: Pin[] = [
     name: "Lionel Messi",
     description: "Inter Miami",
     country: "Argentina",
-    colors: ["#EC4899", "#DB2777", "#F472B6"],
+    images: [
+      "https://images.unsplash.com/photo-1551280857-2b9bbe52acf4?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1488474739786-757973c2dff6?q=80&w=1315&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://plus.unsplash.com/premium_photo-1685231505284-4867f25dabba?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    ],
   },
   {
     id: "pin-3",
@@ -44,7 +52,11 @@ const pins: Pin[] = [
     name: "Son Heung-min",
     description: "Tottenham",
     country: "South Korea",
-    colors: ["#8B5CF6", "#7C3AED", "#A78BFA"],
+    images: [
+      "https://images.unsplash.com/photo-1544765773-a8dce1f272f6?q=80&w=1297&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://plus.unsplash.com/premium_photo-1685231505216-720690ca7cc9?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1614170059029-3b7422659b37?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    ],
   },
   {
     id: "pin-4",
@@ -54,7 +66,11 @@ const pins: Pin[] = [
     name: "Vinicius Jr",
     description: "Real Madrid",
     country: "Brazil",
-    colors: ["#10B981", "#059669", "#34D399"],
+    images: [
+      "https://images.unsplash.com/photo-1551280857-2b9bbe52acf4?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1488474739786-757973c2dff6?q=80&w=1315&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://plus.unsplash.com/premium_photo-1685231505284-4867f25dabba?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    ],
   },
   {
     id: "pin-5",
@@ -64,7 +80,11 @@ const pins: Pin[] = [
     name: "Erling Haaland",
     description: "Manchester City",
     country: "Norway",
-    colors: ["#F59E0B", "#D97706", "#FBBF24"],
+    images: [
+      "https://images.unsplash.com/photo-1544765773-a8dce1f272f6?q=80&w=1297&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://plus.unsplash.com/premium_photo-1685231505216-720690ca7cc9?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1614170059029-3b7422659b37?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    ],
   },
   {
     id: "pin-6",
@@ -74,7 +94,11 @@ const pins: Pin[] = [
     name: "Kylian Mbappé",
     description: "Real Madrid",
     country: "France",
-    colors: ["#EF4444", "#DC2626", "#F87171"],
+    images: [
+      "https://images.unsplash.com/photo-1551280857-2b9bbe52acf4?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1488474739786-757973c2dff6?q=80&w=1315&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://plus.unsplash.com/premium_photo-1685231505284-4867f25dabba?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    ],
   },
 ];
 
@@ -91,8 +115,8 @@ function PinMarker({
   // Track hover state for pin scaling
   const [isHovered, setIsHovered] = useState(false);
 
-  // Carousel state - track current color index
-  const [currentColorIndex, setCurrentColorIndex] = useState(0);
+  // Carousel state - track current image index
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   // Show card only when clicked active (not on hover)
   const showCard = isActive;
@@ -104,23 +128,23 @@ function PinMarker({
   const pinScale = isActive ? 1.4 : isHovered ? 1.2 : 1;
 
   // Carousel navigation handlers
-  const handlePrevColor = (e: React.MouseEvent) => {
+  const handlePrevImage = (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent pin click
-    setCurrentColorIndex((prev) =>
-      prev === 0 ? pin.colors.length - 1 : prev - 1
+    setCurrentImageIndex((prev) =>
+      prev === 0 ? pin.images.length - 1 : prev - 1
     );
   };
 
-  const handleNextColor = (e: React.MouseEvent) => {
+  const handleNextImage = (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent pin click
-    setCurrentColorIndex((prev) =>
-      prev === pin.colors.length - 1 ? 0 : prev + 1
+    setCurrentImageIndex((prev) =>
+      prev === pin.images.length - 1 ? 0 : prev + 1
     );
   };
 
   const handleDotClick = (index: number, e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent pin click
-    setCurrentColorIndex(index);
+    setCurrentImageIndex(index);
   };
 
   return (
@@ -240,17 +264,18 @@ function PinMarker({
         >
           {/* Main card body */}
           <div className="bg-[#1a1a1a] rounded-lg shadow-2xl border border-gray-800 w-full">
-            {/* Color carousel - with navigation and indicators */}
+            {/* Image carousel - with navigation and indicators */}
             <div style={{ padding: "0.25vw" }} className="relative">
-              {/* Color display */}
-              <div
-                className="w-full aspect-square rounded-lg content-item content-delay-1 transition-colors duration-300"
-                style={{ backgroundColor: pin.colors[currentColorIndex] }}
+              {/* Image display */}
+              <img
+                src={pin.images[currentImageIndex]}
+                alt={pin.name}
+                className="w-full aspect-square rounded-lg content-item content-delay-1 object-cover transition-opacity duration-300"
               />
 
               {/* Left navigation button - overflows card edge */}
               <button
-                onClick={handlePrevColor}
+                onClick={handlePrevImage}
                 className="absolute top-1/2 -translate-y-1/2 bg-[#1a1a1a] hover:bg-[#252525] rounded-full transition-all duration-200 hover:scale-105 pointer-events-auto border-1 border-white/40"
                 style={{
                   width: "2vw",
@@ -276,7 +301,7 @@ function PinMarker({
 
               {/* Right navigation button - overflows card edge */}
               <button
-                onClick={handleNextColor}
+                onClick={handleNextImage}
                 className="absolute top-1/2 -translate-y-1/2 bg-[#1a1a1a] hover:bg-[#252525] rounded-full transition-all duration-200 hover:scale-105 pointer-events-auto border-1 border-white/40"
                 style={{
                   width: "2vw",
@@ -305,16 +330,16 @@ function PinMarker({
                 className="absolute bottom-[0.5vw] left-1/2 -translate-x-1/2 flex gap-[0.3vw]"
                 style={{ pointerEvents: "auto" }}
               >
-                {pin.colors.map((_, index) => (
+                {pin.images.map((_, index) => (
                   <button
                     key={index}
                     onClick={(e) => handleDotClick(index, e)}
                     className="rounded-full transition-all duration-200"
                     style={{
-                      width: currentColorIndex === index ? "0.6vw" : "0.4vw",
+                      width: currentImageIndex === index ? "0.6vw" : "0.4vw",
                       height: "0.4vw",
                       backgroundColor:
-                        currentColorIndex === index ? "#F97316" : "#ffffff80",
+                        currentImageIndex === index ? "#F97316" : "#ffffff80",
                     }}
                   />
                 ))}
