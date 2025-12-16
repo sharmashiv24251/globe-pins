@@ -165,14 +165,10 @@ function PinMarker({
       onMouseLeave={() => setIsHovered(false)}
     >
       <style jsx>{`
-        @keyframes spring-pop {
+        @keyframes smooth-pop {
           0% {
             transform: translate(-85%, 0) scale(0) rotate(15deg);
             opacity: 0;
-          }
-          60% {
-            transform: translate(-85%, 10px) scale(1.1) rotate(-12deg);
-            opacity: 1;
           }
           100% {
             transform: translate(-85%, 10px) scale(1) rotate(-10deg);
@@ -180,7 +176,7 @@ function PinMarker({
           }
         }
 
-        @keyframes spring-pop-reverse {
+        @keyframes smooth-pop-reverse {
           0% {
             transform: translate(-85%, 10px) scale(1) rotate(-10deg);
             opacity: 1;
@@ -203,44 +199,44 @@ function PinMarker({
         }
 
         .card-enter {
-          animation: spring-pop 350ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+          animation: smooth-pop 480ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
         .card-exit {
-          animation: spring-pop-reverse 200ms cubic-bezier(0.4, 0, 1, 1)
+          animation: smooth-pop-reverse 240ms cubic-bezier(0.4, 0, 0.2, 1)
             forwards;
         }
 
         .card-hover-enter {
-          animation: spring-pop 350ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+          animation: smooth-pop 480ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
         .content-item {
-          animation: content-stagger 250ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+          animation: content-stagger 280ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
         .content-delay-1 {
-          animation-delay: 50ms;
+          animation-delay: 80ms;
           opacity: 0;
         }
 
         .content-delay-2 {
-          animation-delay: 100ms;
+          animation-delay: 160ms;
           opacity: 0;
         }
 
         .content-delay-3 {
-          animation-delay: 150ms;
+          animation-delay: 240ms;
           opacity: 0;
         }
 
         /* Only animate when active (clicked) */
         .card-active {
-          animation: spring-pop 350ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+          animation: smooth-pop 480ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
         .card-active .content-item {
-          animation: content-stagger 250ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+          animation: content-stagger 280ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
       `}</style>
 
