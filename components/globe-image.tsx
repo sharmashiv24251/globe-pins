@@ -113,26 +113,26 @@ function PinMarker({
       <style jsx>{`
         @keyframes spring-pop {
           0% {
-            transform: translate(-30%, 0) scale(0) rotate(15deg);
+            transform: translate(-15%, 0) scale(0) rotate(15deg);
             opacity: 0;
           }
           60% {
-            transform: translate(-30%, 10px) scale(1.1) rotate(-12deg);
+            transform: translate(-15%, 10px) scale(1.1) rotate(-12deg);
             opacity: 1;
           }
           100% {
-            transform: translate(-30%, 10px) scale(1) rotate(-10deg);
+            transform: translate(-15%, 10px) scale(1) rotate(-10deg);
             opacity: 1;
           }
         }
 
         @keyframes spring-pop-reverse {
           0% {
-            transform: translate(-30%, 10px) scale(1) rotate(-10deg);
+            transform: translate(-15%, 10px) scale(1) rotate(-10deg);
             opacity: 1;
           }
           100% {
-            transform: translate(-30%, 0) scale(0) rotate(15deg);
+            transform: translate(-15%, 0) scale(0) rotate(15deg);
             opacity: 0;
           }
         }
@@ -153,7 +153,8 @@ function PinMarker({
         }
 
         .card-exit {
-          animation: spring-pop-reverse 200ms cubic-bezier(0.4, 0, 1, 1) forwards;
+          animation: spring-pop-reverse 200ms cubic-bezier(0.4, 0, 1, 1)
+            forwards;
         }
 
         .card-hover-enter {
@@ -190,43 +191,58 @@ function PinMarker({
       `}</style>
 
       {/* Card - appears on click only */}
-      <div className="absolute bottom-full left-1/2 mb-1 pointer-events-none" style={{ zIndex: 30 }}>
+      <div
+        className="absolute bottom-full left-1/2 mb-1 pointer-events-none"
+        style={{ zIndex: 30 }}
+      >
         {/* Card container with spring animation */}
         <div
           className={`relative ${showCard ? "card-active" : ""}`}
           style={{
             transformOrigin: "bottom center",
-            transform: showCard ? "translate(-30%, 10px) scale(1) rotate(-10deg)" : "translate(-30%, 0) scale(0) rotate(15deg)",
+            transform: showCard
+              ? "translate(-15%, 10px) scale(1) rotate(-10deg)"
+              : "translate(-15%, 0) scale(0) rotate(15deg)",
             opacity: showCard ? 1 : 0,
             transition: showCard ? "none" : "none",
+            width: "220%", // Card width as percentage of container
           }}
         >
           {/* Main card body */}
-          <div className="bg-[#1a1a1a] rounded-lg shadow-2xl min-w-[200px] border border-gray-800">
+          <div className="bg-[#1a1a1a] rounded-lg shadow-2xl border border-gray-800 w-full">
             {/* Blue rounded box - minimal padding, square aspect */}
-            <div className="p-1">
+            <div style={{ padding: "0.25vw" }}>
               <div className="w-full aspect-square bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg content-item content-delay-1"></div>
             </div>
 
-            {/* Text content - reduced padding */}
-            <div className="px-3 pb-3 pt-2">
+            {/* Text content - responsive padding and text sizes */}
+            <div style={{ padding: "0.6vw 0.8vw" }}>
               {/* Name */}
-              <h3 className="text-white font-semibold text-base mb-1 content-item content-delay-2">
+              <h3
+                className="text-white font-semibold content-item content-delay-2"
+                style={{ fontSize: "0.9vw", marginBottom: "0.2vw" }}
+              >
                 {pin.name}
               </h3>
 
               {/* Description */}
-              <p className="text-gray-400 text-sm mb-2 content-item content-delay-2">
+              <p
+                className="text-gray-400 content-item content-delay-2"
+                style={{ fontSize: "0.7vw", marginBottom: "0.5vw" }}
+              >
                 {pin.description}
               </p>
 
               {/* Country with icon */}
-              <div className="flex items-center gap-2 text-gray-400 text-sm content-item content-delay-3">
+              <div
+                className="flex items-center text-gray-400 content-item content-delay-3"
+                style={{ gap: "0.4vw", fontSize: "0.65vw" }}
+              >
                 <svg
-                  className="w-4 h-4"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg"
+                  style={{ width: "0.8vw", height: "0.8vw" }}
                 >
                   <path
                     fillRule="evenodd"
