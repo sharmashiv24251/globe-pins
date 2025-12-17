@@ -1,109 +1,10 @@
 "use client";
 
-import { useState } from "react";
-
-// Pin configuration type
-type Pin = {
-  id: string;
-  x: number; // 0-100 (percentage from left)
-  y: number; // 0-100 (percentage from top)
-  rotation: number; // 0-360 degrees to rotate the pin image
-  name: string;
-  description: string;
-  country: string;
-  images: string[]; // Array of image URLs for carousel
-};
-
-// Configure your pins here - change x,y,rotation values to position them
-const pins: Pin[] = [
-  {
-    id: "pin-1",
-    x: 50,
-    y: 62,
-    rotation: 0,
-    name: "Kalidou Koulibaly",
-    description: "Al-Hilal",
-    country: "Senegal",
-    images: [
-      "https://images.unsplash.com/photo-1544765773-a8dce1f272f6?q=80&w=1297&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "https://plus.unsplash.com/premium_photo-1685231505216-720690ca7cc9?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "https://images.unsplash.com/photo-1614170059029-3b7422659b37?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    ],
-  },
-  {
-    id: "pin-2",
-    x: 41.5,
-    y: 64,
-    rotation: -25,
-    name: "Lionel Messi",
-    description: "Inter Miami",
-    country: "Argentina",
-    images: [
-      "https://images.unsplash.com/photo-1551280857-2b9bbe52acf4?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "https://images.unsplash.com/photo-1488474739786-757973c2dff6?q=80&w=1315&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "https://plus.unsplash.com/premium_photo-1685231505284-4867f25dabba?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    ],
-  },
-  {
-    id: "pin-3",
-    x: 47,
-    y: 46,
-    rotation: 0,
-    name: "Son Heung-min",
-    description: "Tottenham",
-    country: "South Korea",
-    images: [
-      "https://images.unsplash.com/photo-1544765773-a8dce1f272f6?q=80&w=1297&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "https://plus.unsplash.com/premium_photo-1685231505216-720690ca7cc9?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "https://images.unsplash.com/photo-1614170059029-3b7422659b37?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    ],
-  },
-  {
-    id: "pin-4",
-    x: 13,
-    y: 70,
-    rotation: -70,
-    name: "Vinicius Jr",
-    description: "Real Madrid",
-    country: "Brazil",
-    images: [
-      "https://images.unsplash.com/photo-1551280857-2b9bbe52acf4?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "https://images.unsplash.com/photo-1488474739786-757973c2dff6?q=80&w=1315&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "https://plus.unsplash.com/premium_photo-1685231505284-4867f25dabba?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    ],
-  },
-  {
-    id: "pin-5",
-    x: 45,
-    y: 51,
-    rotation: 0,
-    name: "Erling Haaland",
-    description: "Manchester City",
-    country: "Norway",
-    images: [
-      "https://images.unsplash.com/photo-1544765773-a8dce1f272f6?q=80&w=1297&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "https://plus.unsplash.com/premium_photo-1685231505216-720690ca7cc9?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "https://images.unsplash.com/photo-1614170059029-3b7422659b37?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    ],
-  },
-  {
-    id: "pin-6",
-    x: 49,
-    y: 46,
-    rotation: -15,
-    name: "Kylian Mbappé",
-    description: "Real Madrid",
-    country: "France",
-    images: [
-      "https://images.unsplash.com/photo-1551280857-2b9bbe52acf4?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "https://images.unsplash.com/photo-1488474739786-757973c2dff6?q=80&w=1315&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "https://plus.unsplash.com/premium_photo-1685231505284-4867f25dabba?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    ],
-  },
-];
+import React, { useState, useCallback } from "react";
+import { type Pin, PINS } from "@/lib/constants";
 
 // PinMarker component - shows pin image and card on hover
-function PinMarker({
+const PinMarker = React.memo(function PinMarker({
   pin,
   isActive,
   isExiting,
@@ -368,36 +269,42 @@ function PinMarker({
       </div>
     </div>
   );
-}
+});
 
 export default function GlobeImage() {
   const [activePinId, setActivePinId] = useState<string | null>(null);
   const [exitingPinId, setExitingPinId] = useState<string | null>(null);
 
-  const handlePinHoverStart = (pinId: string) => {
-    // If there's already an active pin that's different, set it as exiting
-    if (activePinId && activePinId !== pinId) {
-      setExitingPinId(activePinId);
-      // Clear exiting state after animation completes (matches card-exit duration)
-      setTimeout(() => {
-        setExitingPinId(null);
-      }, 480);
-    }
-    // Set the new pin as active
-    setActivePinId(pinId);
-  };
+  const handlePinHoverStart = useCallback(
+    (pinId: string) => {
+      // If there's already an active pin that's different, set it as exiting
+      if (activePinId && activePinId !== pinId) {
+        setExitingPinId(activePinId);
+        // Clear exiting state after animation completes (matches card-exit duration)
+        setTimeout(() => {
+          setExitingPinId(null);
+        }, 480);
+      }
+      // Set the new pin as active
+      setActivePinId(pinId);
+    },
+    [activePinId]
+  );
 
-  const handlePinHoverEnd = (pinId: string) => {
-    // Only clear if this pin is still the active one
-    if (activePinId === pinId) {
-      setExitingPinId(pinId);
-      setActivePinId(null);
-      // Clear exiting state after animation completes
-      setTimeout(() => {
-        setExitingPinId(null);
-      }, 480);
-    }
-  };
+  const handlePinHoverEnd = useCallback(
+    (pinId: string) => {
+      // Only clear if this pin is still the active one
+      if (activePinId === pinId) {
+        setExitingPinId(pinId);
+        setActivePinId(null);
+        // Clear exiting state after animation completes
+        setTimeout(() => {
+          setExitingPinId(null);
+        }, 480);
+      }
+    },
+    [activePinId]
+  );
 
   return (
     <section className="w-full relative">
@@ -407,7 +314,7 @@ export default function GlobeImage() {
         style={{ backgroundImage: "url('/bg.png')" }}
       >
         {/* Pins positioned absolutely within the container */}
-        {pins.map((pin) => (
+        {PINS.map((pin) => (
           <PinMarker
             key={pin.id}
             pin={pin}
