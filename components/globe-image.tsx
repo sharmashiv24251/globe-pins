@@ -175,28 +175,6 @@ function PinMarker({
       }}
     >
       <style jsx>{`
-        @keyframes smooth-pop {
-          0% {
-            transform: translate(-85%, 0) scale(0) rotate(15deg);
-            opacity: 0;
-          }
-          100% {
-            transform: translate(-85%, 10px) scale(1) rotate(-10deg);
-            opacity: 1;
-          }
-        }
-
-        @keyframes smooth-pop-reverse {
-          0% {
-            transform: translate(-85%, 10px) scale(1) rotate(-10deg);
-            opacity: 1;
-          }
-          100% {
-            transform: translate(-85%, 0) scale(0) rotate(15deg);
-            opacity: 0;
-          }
-        }
-
         @keyframes content-stagger {
           0% {
             opacity: 0;
@@ -206,19 +184,6 @@ function PinMarker({
             opacity: 1;
             transform: translateY(0);
           }
-        }
-
-        .card-enter {
-          animation: smooth-pop 480ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-
-        .card-exit {
-          animation: smooth-pop-reverse 480ms cubic-bezier(0.4, 0, 0.2, 1)
-            forwards;
-        }
-
-        .card-hover-enter {
-          animation: smooth-pop 480ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
         .content-item {
@@ -239,33 +204,24 @@ function PinMarker({
           animation-delay: 240ms;
           opacity: 0;
         }
-
-        /* Only animate when active (clicked) */
-        .card-active {
-          animation: smooth-pop 480ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-
-        .card-active .content-item {
-          animation: content-stagger 280ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
       `}</style>
 
-      {/* Card - appears on click only */}
+      {/* Card - appears on hover */}
       <div
         className="absolute bottom-full left-1/2 mb-1 pointer-events-none"
         style={{ zIndex: 30 }}
       >
-        {/* Card container with entry/exit animation */}
+        {/* Card container with interruptible CSS transition */}
         <div
-          className={`relative ${
-            isActive ? "card-enter" : isExiting ? "card-exit" : ""
-          }`}
+          className="relative"
           style={{
             transformOrigin: "bottom right",
             transform: isActive
               ? "translate(-85%, 10px) scale(1) rotate(-10deg)"
               : "translate(-85%, 0) scale(0) rotate(15deg)",
             opacity: isActive ? 1 : 0,
+            transition:
+              "transform 480ms cubic-bezier(0.4, 0, 0.2, 1), opacity 480ms cubic-bezier(0.4, 0, 0.2, 1)",
             width: "220%", // Card width as percentage of container
             pointerEvents: isActive ? "auto" : "none",
           }}
