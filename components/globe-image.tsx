@@ -19,7 +19,7 @@ const pins: Pin[] = [
   {
     id: "pin-1",
     x: 50,
-    y: 65,
+    y: 62,
     rotation: 0,
     name: "Kalidou Koulibaly",
     description: "Al-Hilal",
@@ -32,7 +32,7 @@ const pins: Pin[] = [
   },
   {
     id: "pin-2",
-    x: 43,
+    x: 41.5,
     y: 64,
     rotation: -25,
     name: "Lionel Messi",
@@ -46,9 +46,9 @@ const pins: Pin[] = [
   },
   {
     id: "pin-3",
-    x: 78,
-    y: 48,
-    rotation: 20,
+    x: 47,
+    y: 46,
+    rotation: 0,
     name: "Son Heung-min",
     description: "Tottenham",
     country: "South Korea",
@@ -74,8 +74,8 @@ const pins: Pin[] = [
   },
   {
     id: "pin-5",
-    x: 46,
-    y: 54,
+    x: 45,
+    y: 51,
     rotation: 0,
     name: "Erling Haaland",
     description: "Manchester City",
@@ -88,8 +88,8 @@ const pins: Pin[] = [
   },
   {
     id: "pin-6",
-    x: 50,
-    y: 54,
+    x: 49,
+    y: 46,
     rotation: -15,
     name: "Kylian Mbappé",
     description: "Real Madrid",
