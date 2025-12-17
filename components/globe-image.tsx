@@ -102,15 +102,19 @@ const pins: Pin[] = [
   },
 ];
 
-// PinMarker component - shows pin image and card on click only
+// PinMarker component - shows pin image and card on hover
 function PinMarker({
   pin,
   isActive,
-  onClick,
+  isExiting,
+  onHoverStart,
+  onHoverEnd,
 }: {
   pin: Pin;
   isActive: boolean;
-  onClick: () => void;
+  isExiting: boolean;
+  onHoverStart: () => void;
+  onHoverEnd: () => void;
 }) {
   // Track hover state for pin scaling
   const [isHovered, setIsHovered] = useState(false);
@@ -118,8 +122,8 @@ function PinMarker({
   // Carousel state - track current image index
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // Show card only when clicked active (not on hover)
-  const showCard = isActive;
+  // Show card when active (hovered) or exiting (animating out)
+  const showCard = isActive || isExiting;
 
   // Pin scale logic:
   // - Active (card open): 1.4x (persists even without hover)
@@ -160,9 +164,14 @@ function PinMarker({
         // Active pin appears above card (z-40), inactive pins behind card (z-10)
         zIndex: isActive ? 40 : 10,
       }}
-      onClick={onClick}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => {
+        setIsHovered(true);
+        onHoverStart();
+      }}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        onHoverEnd();
+      }}
     >
       <style jsx>{`
         @keyframes smooth-pop {
@@ -203,7 +212,7 @@ function PinMarker({
         }
 
         .card-exit {
-          animation: smooth-pop-reverse 240ms cubic-bezier(0.4, 0, 0.2, 1)
+          animation: smooth-pop-reverse 480ms cubic-bezier(0.4, 0, 0.2, 1)
             forwards;
         }
 
@@ -245,17 +254,19 @@ function PinMarker({
         className="absolute bottom-full left-1/2 mb-1 pointer-events-none"
         style={{ zIndex: 30 }}
       >
-        {/* Card container with spring animation */}
+        {/* Card container with entry/exit animation */}
         <div
-          className={`relative ${showCard ? "card-active" : ""}`}
+          className={`relative ${
+            isActive ? "card-enter" : isExiting ? "card-exit" : ""
+          }`}
           style={{
             transformOrigin: "bottom right",
-            transform: showCard
+            transform: isActive
               ? "translate(-85%, 10px) scale(1) rotate(-10deg)"
               : "translate(-85%, 0) scale(0) rotate(15deg)",
-            opacity: showCard ? 1 : 0,
-            transition: showCard ? "none" : "none",
+            opacity: isActive ? 1 : 0,
             width: "220%", // Card width as percentage of container
+            pointerEvents: isActive ? "auto" : "none",
           }}
         >
           {/* Main card body */}
@@ -404,10 +415,31 @@ function PinMarker({
 
 export default function GlobeImage() {
   const [activePinId, setActivePinId] = useState<string | null>(null);
+  const [exitingPinId, setExitingPinId] = useState<string | null>(null);
 
-  const handlePinClick = (pinId: string) => {
-    // Toggle: if clicking the active pin, deactivate it; otherwise activate the clicked pin
-    setActivePinId((prev) => (prev === pinId ? null : pinId));
+  const handlePinHoverStart = (pinId: string) => {
+    // If there's already an active pin that's different, set it as exiting
+    if (activePinId && activePinId !== pinId) {
+      setExitingPinId(activePinId);
+      // Clear exiting state after animation completes (matches card-exit duration)
+      setTimeout(() => {
+        setExitingPinId(null);
+      }, 480);
+    }
+    // Set the new pin as active
+    setActivePinId(pinId);
+  };
+
+  const handlePinHoverEnd = (pinId: string) => {
+    // Only clear if this pin is still the active one
+    if (activePinId === pinId) {
+      setExitingPinId(pinId);
+      setActivePinId(null);
+      // Clear exiting state after animation completes
+      setTimeout(() => {
+        setExitingPinId(null);
+      }, 480);
+    }
   };
 
   return (
@@ -423,7 +455,9 @@ export default function GlobeImage() {
             key={pin.id}
             pin={pin}
             isActive={activePinId === pin.id}
-            onClick={() => handlePinClick(pin.id)}
+            isExiting={exitingPinId === pin.id}
+            onHoverStart={() => handlePinHoverStart(pin.id)}
+            onHoverEnd={() => handlePinHoverEnd(pin.id)}
           />
         ))}
       </div>
