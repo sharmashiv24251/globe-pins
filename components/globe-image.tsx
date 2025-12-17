@@ -161,8 +161,9 @@ function PinMarker({
         // Pin size relative to container width (3% of container width)
         width: "3%",
         aspectRatio: "1",
-        // Active pin appears above card (z-40), inactive pins behind card (z-10)
-        zIndex: isActive ? 40 : 10,
+        // Active or exiting pin stays above others (z-40), inactive pins behind (z-10)
+        // This ensures the card maintains its z-index during exit animation
+        zIndex: isActive || isExiting ? 40 : 10,
       }}
       onMouseEnter={() => {
         setIsHovered(true);
